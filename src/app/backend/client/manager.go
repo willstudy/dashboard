@@ -22,6 +22,7 @@ import (
 
 	restful "github.com/emicklei/go-restful"
 	authApi "github.com/kubernetes/dashboard/src/app/backend/auth/api"
+	version "github.com/kubernetes/dashboard/src/app/version"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -42,6 +43,8 @@ const (
 	DefaultCmdConfigName = "kubernetes"
 	// Header name that contains token used for authorization. See TokenManager for more information.
 	JWETokenHeader = "jweToken"
+	// Default http header for user-agent
+	DefaultUserAgent = "dashboard/" + version.VERSION
 )
 
 // ClientManager is responsible for initializing and creating clients to communicate with
@@ -188,6 +191,7 @@ func (self *clientManager) initConfig(cfg *rest.Config) {
 	cfg.QPS = DefaultQPS
 	cfg.Burst = DefaultBurst
 	cfg.ContentType = DefaultContentType
+	cfg.UserAgent = DefaultUserAgent
 }
 
 // Returns rest Config based on provided apiserverHost and kubeConfigPath flags. If both are
